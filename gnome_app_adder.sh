@@ -1,5 +1,5 @@
 #!/bin/bash
-#Infos per Zenity sammeln
+#Collecting infos via zenity
 
 if ! NAME=$(zenity --entry --text "Name der im Menü angezeigt werden soll" --title "Bezeichnung"); then
   exit;
@@ -14,22 +14,16 @@ if ! ICON=$(zenity --file-selection --title="Icon auswählen"); then
 fi
 echo "icon ok"
 
-#Ausführungspräfix für shellscripte
+#detecting software for proper filehandling
 
 if [[ "$EXEC" =~ ".sh" ]]; then 
     EXECSTRG="sh " && echo "found exec sh"
 fi
 
-#Ausführungspräfix für medien
-#Beliebig erweiterbar
 
 if [[ "$EXEC" =~ ".mp3" ]]; then 
     EXECSTRG="vlc " && echo "found exec vlc"
 fi
-
-
-#Ausführungspräfix für office Dateien
-#Beliebig erweiterbar
 
 if [[ "$EXEC" =~ ".xls" ]]; then 
     EXECSTRG="ooffice " && echo "found exec office"
@@ -47,7 +41,7 @@ fi
 
 
 
-#Datei im heimverzeichnis anlegen und mit Infos füttern
+#create desktop file and fill it up
 echo "creating .desktop file"
 touch ~/$NAME.desktop 
 echo "file created"
@@ -59,8 +53,7 @@ echo "Terminal=false"                   >> ~/$NAME.desktop
 echo "Type=Application"                 >> ~/$NAME.desktop
 echo "file creation done"
 
-#Datei in Heimverzeichnis/.local/share/Applications/ verschieben
-#Danach ist das Icon im Gnomenü verfügbar
+#move file to ~/.local/share/applications
 
 mv ~/$NAME.desktop ~/.local/share/applications
 echo "file moved"
